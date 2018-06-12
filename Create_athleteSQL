@@ -1,0 +1,12 @@
+////////athlete테이블 생성(질의 편집기)////////
+
+CREATE TABLE athlete(                                  // 'athlete'라는 이름의 테이블 생성
+code integer AUTO_INCREMENT(16693,1) NOT NULL,         // "칼럼이름" "칼럼의 데이터형" "자동 증가방식"(선택) "NULL값 반환하지 않음."
+[name] character varying(40) NOT NULL,                 // "칼럼이름"이 함수이름과 겹칠 때 [column_name]과 같이 대괄호를 써준다.
+gender character(1),                                   //
+nation_code charcter(3),                               //
+event character varying(30),                           //
+CONSTRAINT pk_athlete_code PRIMARY KEY(code)           // 제약조건 및 PRIMARY KEY("column_name").
+                                                       // 이때, 제약조건의 primary key에 해당하는 칼럼이 다수일 때는 아래와 같이 작성한다.
+                                                       // CONSTRAINT pk_tableName_columnName1_columnName2_... PRIMARY KEY(columnName1,columnName2,...)
+) COLLATE iso88591_bin;                                // iso88591_bin: 큐브리드에서 기본으로 제공하는 환경변수,  ko_KR.utf8을 쓰면 한국어까지 제공이 가능하다.
