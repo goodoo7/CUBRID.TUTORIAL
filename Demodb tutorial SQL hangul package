@@ -1,0 +1,170 @@
+///code///
+CREATE TABLE code(
+
+//code - 칼럼 생성//					
+s_name character(1),					
+f_name character varying(6) COLLATE iso88591_bin 	
+) COLLATE iso88591_bin ;//환경변수 참조
+
+
+
+///event///
+CREATE TABLE event(	
+
+//event - 칼럼 생성//				
+code integer NOT NULL,
+sports character varying(50),
+[name] character varying(50),
+gender character(1),
+players integer,
+
+//제한조건. PRIMARY KEY//
+CONSTRAINT pk_event_code PRIMARY KEY(code)
+
+) COLLATE iso88591_bin ; //환경변수 참조
+
+
+
+
+///game///
+CREATE TABLE game(
+
+//game - 칼럼 생성//
+host_year integer NOT NULL,
+event_code integer NOT NULL,
+athlete_code integer NOT NULL,
+stadium_code integer NOT NULL,
+nation_code character(3),
+medal character(1),
+game_date date,	//데이터 유형: date, 입력 형식: YYYY-MM-DD
+
+//제한 조건, primary key 설정!
+CONSTRAINT pk_game_host_year_event_code_athlete_code PRIMARY KEY(host_year,event_code,athlete_code),
+ 
+//외래키 athlete_code 설정, athlete테이블의 code값을 참조함!, 
+//athlete테이블의 code값을 수정/삭제하지 못하게 함
+ FOREIGN KEY (athlete_code) REFERENCES athlete(code) ON DELETE RESTRICT ON UPDATE RESTRICT,
+ 
+//외래키 event_code 설정, event테이블의 code값을 참조함!, 
+//event 테이블의 code값을 수정/삭제하지 못하게 함
+FOREIGN KEY (event_code) REFERENCES event(code) ON DELETE RESTRICT ON UPDATE RESTRICT
+
+) COLLATE iso88591_bin ; //환경변수 참조
+
+
+
+
+///history///
+CREATE TABLE history(
+
+//history - 칼럼 생성//
+event_code integer NOT NULL,
+athlete character varying(40) NOT NULL,
+host_year integer,
+score character varying(10),
+unit character varying(5),
+
+//제한 조건, PRIMARY KEY 설정//
+CONSTRAINT pk_history_event_code_athlete PRIMARY KEY(event_code,athlete)
+
+) COLLATE iso88591_bin ; // 환경변수 참조
+
+
+
+
+///nation///
+CREATE TABLE nation(
+
+//nation - 칼럼 생성//
+code character(3) NOT NULL,
+[name] character varying(40) NOT NULL,
+continent character varying(10),
+capital character varying(30),
+
+//제한조건, PRIMARY KEY설정//
+CONSTRAINT pk_nation_code PRIMARY KEY(code)
+
+) COLLATE iso88591_bin ; // 환경변수 참조
+
+
+
+///olympic///
+CREATE TABLE olympic(
+
+//olympic - Į칼럼 생성//
+host_year integer NOT NULL,
+host_nation character varying(40) NOT NULL,
+host_city character varying(20) NOT NULL,
+opening_date date NOT NULL,
+closing_date date NOT NULL,
+mascot character varying(20),
+slogan character varying(40),
+introduction character varying(1500),
+
+//제한 조건, PRIMARY KEY 생성//
+CONSTRAINT pk_olympic_host_year PRIMARY KEY(host_year)
+
+) COLLATE iso88591_bin ;// 환경 변수 참조
+
+
+
+
+///participant///
+CREATE TABLE participant(
+
+//participant - Į칼럼 생성//
+host_year integer NOT NULL,
+nation_code character(3) NOT NULL,
+gold integer DEFAULT 0,
+silver integer DEFAULT 0,
+bronze integer DEFAULT 0,
+
+//제한조건, PRIMARY KEY 생성//
+CONSTRAINT pk_participant_host_year_nation_code PRIMARY KEY(host_year,nation_code),
+
+//외래키 설정, 참조값, 수정/삭제 불가 제한 두기//
+ FOREIGN KEY (host_year) REFERENCES olympic(host_year) ON DELETE RESTRICT ON UPDATE RESTRICT,
+ FOREIGN KEY (nation_code) REFERENCES nation(code) ON DELETE RESTRICT ON UPDATE RESTRICT
+
+) COLLATE iso88591_bin ; //환경변수 참조
+
+
+
+
+///record///
+CREATE TABLE record(
+
+//record - 칼럼 생성//
+host_year integer NOT NULL,
+event_code integer NOT NULL,
+athlete_code integer NOT NULL,
+medal character(1) NOT NULL,
+score character varying(20),
+unit character varying(5),
+
+//제한 조건, PRIMARY KEY 설정//
+CONSTRAINT pk_record_host_year_event_code_athlete_code_medal PRIMARY KEY(host_year,event_code,athlete_code,medal)
+
+) COLLATE iso88591_bin ; //환경변수 참조
+
+
+
+
+///stadium///
+CREATE TABLE stadium(
+
+//stadium - 칼럼 생성//
+code integer NOT NULL,
+nation_code character(3) NOT NULL,
+[name] character varying(50) NOT NULL,
+area numeric(10,2),
+seats integer,
+address character varying(100),
+
+//제한조건, PRIMARY KEY 설정//
+CONSTRAINT pk_stadium_code PRIMARY KEY(code)
+
+) COLLATE iso88591_bin ; //환경변수 참조
+
+
+
