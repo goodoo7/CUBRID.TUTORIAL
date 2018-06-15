@@ -112,7 +112,7 @@ CONSTRAINT pk_olympic_host_year PRIMARY KEY(host_year)
 ///participant///
 CREATE TABLE participant(
 
-//participant - Į칼럼 생성//
+//participant - 칼럼 생성//
 host_year integer NOT NULL,
 nation_code character(3) NOT NULL,
 gold integer DEFAULT 0,
